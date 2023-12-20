@@ -4,7 +4,7 @@
 Welcome to the SSD1306 Display Service! Please choose the README in your preferred language:
 
 - [Read this in English](README.md)
-- [阅读中文版本](README_ZH.md)
+- [阅读中文版本](README_zh.md)
 
 ## Introduction
 This project provides a Flask-based service to control an SSD1306 OLED display via a simple REST API. It allows displaying text, images, and supports text scrolling features. 

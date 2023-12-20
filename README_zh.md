@@ -4,7 +4,7 @@
 Welcome to the SSD1306 Display Service! Please choose the README in your preferred language:
 
 - [Read this in English](README.md)
-- [阅读中文版本](README_ZH.md)
+- [阅读中文版本](README_zh.md)
 
 ## 介绍
 本项目提供了一个基于Flask的服务，通过简单的REST API来控制SSD1306 OLED显示屏。它支持显示文本、图像，并具有文本滚动功能。
