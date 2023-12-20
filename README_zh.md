@@ -9,6 +9,8 @@ Welcome to the SSD1306 Display Service! Please choose the README in your preferr
 ## 介绍
 本项目提供了一个基于Flask的服务，通过简单的REST API来控制SSD1306 OLED显示屏。它支持显示文本、图像，并具有文本滚动功能。
 
+* 这个程序只能运行在Linux类平台，需要使用I2C总线或者SPI总线来驱动SSD1306
+
 ## 特点
 - 显示可调位置和大小的文本
 - 在OLED屏幕上显示图像

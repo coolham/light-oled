@@ -9,6 +9,8 @@ Welcome to the SSD1306 Display Service! Please choose the README in your preferr
 ## Introduction
 This project provides a Flask-based service to control an SSD1306 OLED display via a simple REST API. It allows displaying text, images, and supports text scrolling features. 
 
+* This program can only run on Linux platforms and needs to use the I2C bus or SPI bus to drive the SSD1306
+
 ## Features
 - Display text with adjustable position and size
 - Show images on the OLED screen
