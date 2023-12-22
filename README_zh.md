@@ -36,6 +36,18 @@ Welcome to the SSD1306 Display Service! Please choose the README in your preferr
    pip install -r requirements.txt
    ```
 
+也可以单独安装：
+
+```
+pip install flask
+pip install Pillow
+pip install luma.oled
+pip install pyyaml
+pip install flask
+pip install fastapi
+```
+
+
 ## 使用
 运行以下命令启动服务：
 ```

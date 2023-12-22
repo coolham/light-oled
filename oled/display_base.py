@@ -6,7 +6,7 @@ class DisplayBase(ABC):
     抽象显示类，定义了显示功能的基本接口
     """
     @abstractmethod
-    def display_text(self, text, x, y):
+    def display_text_line(self, text, x, y):
         pass
 
     @abstractmethod

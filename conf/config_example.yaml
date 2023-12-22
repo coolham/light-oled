@@ -1,0 +1,15 @@
+
+server:
+  port: 8003
+
+ssd1306:
+  i2c_bus: 3
+  i2c_address: 0x3c
+
+fonts:
+  en_font:
+    size: 16
+    file: "./AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-55-Regular/AlibabaPuHuiTi-3-55-Regular.ttf"
+  ch_font:
+    size: 32
+    file: "./AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-55-Regular/AlibabaPuHuiTi-3-55-Regular.ttf"
