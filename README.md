@@ -22,25 +22,49 @@ This project provides a Flask-based service to control an SSD1306 OLED display v
 To run this project, you need to have Python 3 and pip installed on your system.
 
 1. Clone the repository:
-   ```
-   git clone https://github.com/coolham/pyssd1306.git
-   ```
+ 
+```
+git clone https://github.com/coolham/pyssd1306.git
+```
 
 2. Navigate to the cloned directory:
-   ```
-   cd pyssd130
-   ```
 
-3. Install required packages:
-   ```
-   pip install -r requirements.txt
-   ```
+```
+cd pyssd130
+```
+
+3. Create a Python virtual environment:
+
+```
+python3 -m venv venv
+```
+
+4. Install required packages:
+
+```
+pip install -r requirements.txt
+```
+
+5. Install font files
+
+Download font files from [here](https://fonts.alibabagroup.com/#/font), and put them in the `fonts` directory.
+
+For example, download [AlibabaPuHuiTi-3](https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-3.zip)
+
+```shell
+cd fonts
+unzip AlibabaPuHuiTi-3.zip
+```
+
+6. Edit the configuration file
+
+'conf/config.yaml' is the configuration file for the service. You can edit it to change the default settings.
 
 
 ## Usage
 Start the service by running:
 ```
-python pyssd1306.py
+python main.py
 ```
 
 The API endpoints are accessible at `http://localhost:8080/`.

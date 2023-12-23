@@ -22,36 +22,55 @@ Welcome to the SSD1306 Display Service! Please choose the README in your preferr
 运行此项目需要在系统上安装Python 3和pip。
 
 1. 克隆仓库：
-   ```
-   git clone https://github.com/coolham/pyssd1306.git
+```
+git clone https://github.com/coolham/pyssd1306.git
    ```
 
 2. 进入克隆的目录：
-   ```
-   cd pyssd1306
-   ```
+```
+cd pyssd1306
+```
+3. 创建python虚拟环境：
+```
+python3 -m venv venv
+```   
 
-3. 安装所需包：
-   ```
-   pip install -r requirements.txt
-   ```
+4. 安装所需包：
+```
+pip install -r requirements.txt
+```
 
 也可以单独安装：
 
 ```
-pip install flask
 pip install Pillow
 pip install luma.oled
 pip install pyyaml
-pip install flask
 pip install fastapi
 ```
+
+5. 安装字体文件
+
+从[阿里巴巴普惠体](https://fonts.alibabagroup.com/#/font)下载字体文件，解压缩到fonts目录下。
+
+例如，下载[AlibabaPuHuiTi-3](https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-3.zip)
+
+```shell
+cd fonts
+unzip AlibabaPuHuiTi-3.zip
+```
+
+6. 编辑配置文件
+
+编辑`conf/config.yaml`文件
+
+
 
 
 ## 使用
 运行以下命令启动服务：
 ```
-python pyssd1306.py
+python main.py
 ```
 
 API端点可在 `http://localhost:8080/` 访问。

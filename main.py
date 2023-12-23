@@ -13,10 +13,10 @@ def main():
     config = MasterConfig(config_file)
     
     display = create_display()
-    display.display_text_line('Init OK.', 8, 8)
+    display.display_text_line('Disp OK.', 8, 8)
     
     # start_flask_app(display)
-    uvicorn.run("web.fastapi_api:app", host="0.0.0.0", port=8003, reload=True)
+    uvicorn.run("web.fastapi_api:app", host="0.0.0.0", port=8003, reload=False)
     
 
 if __name__ == "__main__":
