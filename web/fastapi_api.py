@@ -33,8 +33,7 @@ async def display_reset():
         raise HTTPException(status_code=500, detail=str(e))
     
 
-# curl -X POST  -H 'Content-Type: application/json' -d '{"text":"Hello, SSD1306!", "x":10, "y":10}' http://localhost:8003/display/line
-@app.post("/display/text/line")
+# curl -X POST  -H 'Content-Type: application/json' -d '{"text":"Hello, SSD1306!", "x":10, "y":10, "font_size":16}' http://localhost:8003/display/text/line@app.post("/display/text/line")
 async def display_text_line(item: TextLine):
     logger.info("display_text: {}".format(item))
     try:
@@ -45,6 +44,7 @@ async def display_text_line(item: TextLine):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+#curl -X POST  -H 'Content-Type: application/json' -d '[{"text":"Hello, SSD1306!", "x":10, "y":10, "font_size":16}, {"text":"Hello, SSD1306!", "x":10, "y":20, "font_size":16}]' http://localhost:8003/display/text/multiline
 @app.post("/display/text/multiline")
 async def display_text_multiline(lines: List[TextLine]):
     logger.info("display_multiline_text: {}".format(lines))
