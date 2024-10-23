@@ -62,7 +62,7 @@ class LinuxDisplay(DisplayBase):
             logger.info("font_size not specified, use default: {}".format(font_size))
         else:
             font_size = int(font_size)
-            logger.info("font_size specified: {}".format(font_size))
+            logger.debug("font_size specified: {}".format(font_size))
             
         return self.font_cache.get(font_size) or ImageFont.truetype(self.ch_font_file, font_size)
             

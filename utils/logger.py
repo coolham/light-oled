@@ -24,7 +24,7 @@ class Logger:
         log_dir = 'logs'
         if not os.path.exists(log_dir):
             os.mkdir(log_dir)
-        log_file = f'can_toolbox_{now_str}.log'
+        log_file = f'pyssd1306_{now_str}.log'
         log_file = os.path.join(log_dir, log_file)
 
         self.root_logger = logging.getLogger()
