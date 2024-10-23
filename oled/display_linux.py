@@ -27,7 +27,6 @@ class LinuxDisplay(DisplayBase):
     Linux系统下的显示实现
     """
     def __init__(self):
-        self.logger = create_logger('oled')
         self.config = MasterConfig()
         self.root_dir = get_application_root()
         self.i2c_port = int(self.config.get_config("ssd1306", "i2c_bus", default="0"))
@@ -43,7 +42,7 @@ class LinuxDisplay(DisplayBase):
         if font_ch_file:
             self.ch_font_file = os.path.join(self.root_dir, font_ch_file)
             if not os.path.exists(self.ch_font_file):
-                self.logger.error("chinese font file:{} not found!".format(self.ch_font_file))
+                logger.error("chinese font file:{} not found!".format(self.ch_font_file))
             else:
                 # font_size = int(self.config.get_config("fonts", "ch_font", "size", default="32"))
                 # self.ch_font = ImageFont.truetype(self.ch_font_file, font_size)
@@ -52,18 +51,18 @@ class LinuxDisplay(DisplayBase):
                 for size in font_size:
                     self.font_cache[size] = ImageFont.truetype(self.ch_font_file, size)
 
-                self.logger.info("chinese font file:{} loaded. size={}".format(self.ch_font_file, font_size))
+                logger.info("chinese font file:{} loaded. size={}".format(self.ch_font_file, font_size))
         else:
-            self.logger.error("chinese font file not specified!")
+            logger.error("chinese font file not specified!")
        
     def _get_font(self, font_size):
         # 从缓存获取字体，如果请求的大小不在预设范围内，则动态创建
         if not font_size:
             font_size = 24
-            self.logger.info("font_size not specified, use default: {}".format(font_size))
+            logger.info("font_size not specified, use default: {}".format(font_size))
         else:
             font_size = int(font_size)
-            self.logger.info("font_size specified: {}".format(font_size))
+            logger.info("font_size specified: {}".format(font_size))
             
         return self.font_cache.get(font_size) or ImageFont.truetype(self.ch_font_file, font_size)
             
@@ -95,7 +94,7 @@ class LinuxDisplay(DisplayBase):
                 draw.text((x, y), text, font=font, fill="white")
                     
     def clear(self):
-        self.logger.info("clear display")
+        logger.info("clear display")
         # 使用黑色矩形覆盖整个屏幕来清除内容
         with canvas(self.device) as draw:
             draw.rectangle(self.device.bounding_box, outline="black", fill="black")
