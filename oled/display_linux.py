@@ -3,8 +3,10 @@ import time
 from oled.display_base import DisplayBase
 from PIL import Image, ImageDraw, ImageFont
 from utils.config import MasterConfig
-from utils.logger_factory import create_logger
 from helper import get_application_root
+from utils.logger import log_function, get_logger
+
+logger = get_logger("disp")
 
 
 # 在Linux上运行时需要的库
@@ -16,6 +18,9 @@ except ImportError:
     # 在Windows上不会导入这些库
     pass
 
+"""
+pip install pillow
+"""
 
 class LinuxDisplay(DisplayBase):
     """

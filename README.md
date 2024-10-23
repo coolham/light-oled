@@ -23,27 +23,37 @@ To run this project, you need to have Python 3 and pip installed on your system.
 
 1. Clone the repository:
  
-```
+```shell
 git clone https://github.com/coolham/pyssd1306.git
 ```
 
 2. Navigate to the cloned directory:
 
-```
+```shell
 cd pyssd130
 ```
 
 3. Create a Python virtual environment:
 
-```
+```shell
 python3 -m venv venv
 ```
 
 4. Install required packages:
 
-```
+```shell
 pip install -r requirements.txt
 ```
+
+or installed by manually:
+
+```shell
+pip install Pillow
+pip install luma.oled
+pip install pyyaml
+pip install fastapi
+```
+
 
 5. Install font files
 

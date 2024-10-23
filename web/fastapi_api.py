@@ -2,14 +2,13 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Optional, List
 from oled.display import create_display
-from utils.logger_factory import create_logger
+from utils.logger import log_function, get_logger
 from web.fast_resp import CommonResponse
 
-
+logger = get_logger("api")
 
 app = FastAPI()
 display = create_display()
-logger = create_logger('api')
 
 class TextLine(BaseModel):
     text: str

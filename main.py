@@ -1,15 +1,21 @@
 # pyssd1306.py
 import os
+import shutil
 import uvicorn
 from oled.display import create_display
 from utils.config import MasterConfig
-from utils.logger_factory import create_logger
+from utils.logger import log_function, get_logger
+
+logger = get_logger("app")
 
 def main():
-    logger = create_logger('main')
     logger.info("starting pyssd1306...")
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     config_file = os.path.join(cur_dir, "conf", "config.yaml")
+    if not os.path.exists(config_file):
+        # if config.yaml not found, copy sample config file
+        shutil.copyfile(os.path.join(cur_dir, "conf", "config_sample.yaml"), config_file)   
+    
     config = MasterConfig(config_file)
     
     display = create_display()

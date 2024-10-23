@@ -1,70 +1,125 @@
 import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
-import time
 import datetime
+from functools import wraps
+from contextlib import contextmanager
+import functools
+import inspect
 
 
 # Modifying the Logger class to ensure all log messages are written to the same file
 
-class Logger(object):
-    # Static variable to store the common file handler
-    _file_handler = None
+class Logger:
+    _instance = None
 
-    def __init__(self, log_name='app', log_level=logging.INFO):
-        # Use a fixed log file name
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(Logger, cls).__new__(cls)
+            cls._instance._initialize()
+        return cls._instance
+
+    def _initialize(self):
         now_str = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
         log_dir = 'logs'
         if not os.path.exists(log_dir):
             os.mkdir(log_dir)
-        log_file = f'biopsy_{now_str}.log'
+        log_file = f'can_toolbox_{now_str}.log'
         log_file = os.path.join(log_dir, log_file)
+
+        self.root_logger = logging.getLogger()
+        self.root_logger.setLevel(logging.DEBUG)  # 或者您想要的任何级别
+
+        # 移除所有现有的处理器
+        for handler in self.root_logger.handlers[:]:
+            self.root_logger.removeHandler(handler)
+
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(filename)s:%(lineno)d')
+
+        file_handler = TimedRotatingFileHandler(log_file, when='D', interval=1, backupCount=30, encoding='utf-8')
+        file_handler.setFormatter(formatter)
+        self.root_logger.addHandler(file_handler)
+
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(formatter)
+        self.root_logger.addHandler(console_handler)
+
+    def get_logger(self, name=None):
+        if name is None:
+            return logging.getLogger("app")
+        return logging.getLogger(name)
+
+    def set_level(self, level):
+        self.root_logger.setLevel(level)
+
+# 全局logger实例
+logger_instance = Logger()
+
+def get_logger(name=None):
+    return logger_instance.get_logger(name)
+
+def set_log_level(level):
+    logger_instance.set_level(level)
+
+def set_logger_level(name, level):
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+
+# 在文件末尾添加这个函数
+def set_module_log_level(module_name, level):
+    set_logger_level(module_name, level)
+
+
+# 添加这行来创建一个默认的 logger
+logger = get_logger("app")
+
+def log_function(level=logging.DEBUG):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            # 获取被装饰函数所在的模块
+            module = inspect.getmodule(func)
             
-        # 创建logger
-        self.logger = logging.getLogger(log_name)
-        self.logger.setLevel(log_level)
+            # 尝试在模块中找到名为 'logger' 的变量
+            module_logger = getattr(module, 'logger', None)
+            
+            # 如果模块中没有定义 logger，则使用默认的 "app" logger
+            if module_logger is None:
+                logger = logging.getLogger("app")
+            else:
+                logger = module_logger
+            
+            logger.log(level, f"Entering {func.__name__} - {func.__code__.co_filename}:{func.__code__.co_firstlineno}")
+            result = func(*args, **kwargs)
+            logger.log(level, f"Exiting {func.__name__}")
+            return result
+        return wrapper
+    return decorator
 
-        if not Logger._file_handler:
-            # Create the common FileHandler if it doesn't exist
-            Logger._file_handler = logging.handlers.TimedRotatingFileHandler(log_file, when='D', interval=1,
-                                                                             backupCount=30, encoding='utf-8')
-            formatter_fh = logging.Formatter(
-                '%(asctime)s - %(levelname)s - %(name)s - [ %(message)s ] - %(filename)s - %(funcName)s:%(lineno)d')
-            Logger._file_handler.setFormatter(formatter_fh)
+@contextmanager
+def temporary_log_level(new_level, logger_name=None):
+    logger = get_logger(logger_name)
+    old_level = logger.level
+    logger.setLevel(new_level)
+    try:
+        yield
+    finally:
+        logger.setLevel(old_level)
 
-        # Use the common FileHandler
-        self.logger.addHandler(Logger._file_handler)
+# 使用示例
+@log_function(level=logging.DEBUG)
+def example_function():
+    logger = get_logger()
+    logger.info("This is an info message")
+    with temporary_log_level(logging.DEBUG):
+        logger.debug("This is a temporary debug message")
+    logger.info("Back to info level")
 
-        # 创建一个StreamHandler,输出到控制台
-        ch = logging.StreamHandler()
-        ch.setLevel(log_level)
-        formatter_ch = logging.Formatter(
-            '%(asctime)s - %(levelname)s - %(name)s - [ %(message)s ] - %(filename)s - %(funcName)s:%(lineno)d')
-        ch.setFormatter(formatter_ch)
+if __name__ == "__main__":
+    example_function()
 
-        # 添加StreamHandler
-        self.logger.addHandler(ch)
-
-    def get_logger(self):
-        return self.logger
-    
-    def set_level(self, log_level):
-        log_level_dict = {
-            'CRITICAL': logging.CRITICAL,
-            'ERROR': logging.ERROR,
-            'WARNING': logging.WARNING,
-            'INFO': logging.INFO,
-            'DEBUG': logging.DEBUG
-        }
-        log_level_i = log_level_dict.get(log_level.upper(), logging.INFO)
-        self.logger.setLevel(log_level_i)
+    # 测试自定义 logger 名称
+    custom_logger = get_logger("panel")
+    custom_logger.info("This is a message from the panel logger")
 
 
-def test():
-    # Testing the modified Logger class
-    logger1 = Logger(log_level=logging.DEBUG).get_logger()
-    logger2 = Logger(log_level=logging.ERROR).get_logger()
-
-    # Logging some test messages
-    logger1.debug("This is a debug message from logger1")
-    logger2.error("This is an error message from logger2")

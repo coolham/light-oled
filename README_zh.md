@@ -22,27 +22,32 @@ Welcome to the SSD1306 Display Service! Please choose the README in your preferr
 运行此项目需要在系统上安装Python 3和pip。
 
 1. 克隆仓库：
-```
+
+```shell
 git clone https://github.com/coolham/pyssd1306.git
    ```
 
 2. 进入克隆的目录：
-```
+
+```shell
 cd pyssd1306
 ```
+
 3. 创建python虚拟环境：
-```
+
+```shell
 python3 -m venv venv
 ```   
 
 4. 安装所需包：
-```
+
+```shell
 pip install -r requirements.txt
 ```
 
 也可以单独安装：
 
-```
+```shell
 pip install Pillow
 pip install luma.oled
 pip install pyyaml
