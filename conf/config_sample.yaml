@@ -2,6 +2,9 @@
 server:
   port: 8003
 
+log:
+  level: info
+
 ssd1306:
   i2c_bus: 3
   i2c_address: 0x3c
