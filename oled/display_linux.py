@@ -31,12 +31,21 @@ class LinuxDisplay(DisplayBase):
         self.root_dir = get_application_root()
         self.i2c_port = int(self.config.get_config("ssd1306", "i2c_bus", default="0"))
         self.serial = i2c(port=self.i2c_port, address=0x3C)
-        self.device = ssd1306(self.serial)
+        self.device = self._initialize_device()
         self.ch_font_file = None
         self.font_cache = {}
         self._init_font_cache()
 
-       
+    def _initialize_device(self, retries=3, delay=1):
+        for attempt in range(retries):
+            try:
+                return ssd1306(self.serial)
+            except Exception as e:
+                logger.error("Failed to initialize SSD1306 device (attempt {}): {}".format(attempt + 1, e))
+                time.sleep(delay)  # 等待一段时间后重试
+        logger.error("All attempts to initialize SSD1306 device failed.")
+        return None  # 所有尝试失败后返回None
+
     def _init_font_cache(self):
         font_ch_file = self.config.get_config("fonts", "ch_font", "file")
         if font_ch_file:
@@ -109,8 +118,7 @@ class LinuxDisplay(DisplayBase):
             self.device.cleanup()
 
         # 重新初始化设备
-        self.serial = i2c(port=self.i2c_port, address=0x3C)
-        self.device = ssd1306(self.serial)
+        self.device = self._initialize_device()  # 调用新的初始化方法
         self.init_font()  # 重新初始化字体
 
         # 可选：清除屏幕
