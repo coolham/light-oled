@@ -32,9 +32,10 @@ async def display_reset():
         raise HTTPException(status_code=500, detail=str(e))
     
 
-# curl -X POST  -H 'Content-Type: application/json' -d '{"text":"Hello, SSD1306!", "x":10, "y":10, "font_size":16}' http://localhost:8003/display/text/line@app.post("/display/text/line")
+# curl -X POST  -H 'Content-Type: application/json' -d '{"text":"Hello, SSD1306!", "x":10, "y":10, "font_size":16}' http://localhost:8003/display/text/line
+@app.post("/display/text/line")
 async def display_text_line(item: TextLine):
-    logger.info("display_text: {}".format(item))
+    logger.debug("display_text: {}".format(item))
     try:
         display.display_text_line(item.text, item.x, item.y, font_size=item.font_size)
         result_data = {}
@@ -46,7 +47,7 @@ async def display_text_line(item: TextLine):
 #curl -X POST  -H 'Content-Type: application/json' -d '[{"text":"Hello, SSD1306!", "x":10, "y":10, "font_size":16}, {"text":"Hello, SSD1306!", "x":10, "y":20, "font_size":16}]' http://localhost:8003/display/text/multiline
 @app.post("/display/text/multiline")
 async def display_text_multiline(lines: List[TextLine]):
-    logger.info("display_multiline_text: {}".format(lines))
+    logger.debug("display_multiline_text: {}".format(lines))
     try:
         display_data = [{"text": line.text, "x": line.x, "y": line.y, "font_size": line.font_size} for line in lines]
         display.display_text_multiline(display_data)
@@ -57,7 +58,7 @@ async def display_text_multiline(lines: List[TextLine]):
     
 @app.post("/display/clear")
 async def display_clear():
-    logger.info("display_clear")
+    logger.debug("display_clear")
     try:
         display.clear()
         result_data = {}

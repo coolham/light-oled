@@ -6,11 +6,13 @@ import logging
 from oled.display import create_display
 from utils.config import MasterConfig
 from utils.logger import log_function, get_logger, set_log_level
+from version import VERSION
+
 
 logger = get_logger("app")
 
 def main():
-    logger.info("starting pyssd1306...")
+    logger.info("starting light-oled-display(version: {})...".format(VERSION))
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     config_file = os.path.join(cur_dir, "conf", "config.yaml")
     if not os.path.exists(config_file):
@@ -28,7 +30,7 @@ def main():
     display.display_text_line('Disp OK.', 8, 8)
     
     # start_flask_app(display)
-    uvicorn.run("web.fastapi_api:app", host="0.0.0.0", port=8003, reload=False)
+    uvicorn.run("web.fastapi_api:app", host="127.0.0.1", port=8003, reload=False)
     
 
 if __name__ == "__main__":
