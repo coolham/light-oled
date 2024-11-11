@@ -76,6 +76,9 @@ def set_logger_level(name, level):
     logger = logging.getLogger(name)
     logger.setLevel(level)
 
+def set_log_directory(log_dir):
+    logger_instance.set_log_directory(log_dir)
+
 # 在文件末尾添加这个函数
 def set_module_log_level(module_name, level):
     set_logger_level(module_name, level)

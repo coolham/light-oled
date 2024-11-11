@@ -5,7 +5,7 @@ import uvicorn
 import logging
 from oled.display import create_display
 from utils.config import MasterConfig
-from utils.logger import log_function, get_logger, set_log_level
+from utils.logger import log_function, get_logger, set_log_level,set_log_directory
 from version import VERSION
 
 
@@ -27,7 +27,7 @@ def main():
     # 设置全局日志级别
     set_log_level(getattr(logging, log_level.upper()))
     # 设置日志目录
-    logger.set_log_directory(log_dir)
+    set_log_directory(log_dir)
 
     display = create_display()
     display.display_text_line('Disp OK.', 8, 8)
