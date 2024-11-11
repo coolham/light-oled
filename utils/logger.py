@@ -20,7 +20,8 @@ class Logger:
         return cls._instance
 
     def _initialize(self, log_dir='logs'):
-        now_str = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+        print("Logger _initialize: {}".format(log_dir))
+        now_str = datetime.datetime.now().strftime('%Y%m%d')
         
         # 检查并创建日志目录
         if not os.path.exists(log_dir):
@@ -32,7 +33,7 @@ class Logger:
                 if not os.path.exists(log_dir):
                     os.makedirs(log_dir)
 
-        log_file = f'pyssd1306_{now_str}.log'
+        log_file = f'light_oled_{now_str}.log'
         log_file = os.path.join(log_dir, log_file)
 
         self.root_logger = logging.getLogger()
@@ -53,6 +54,7 @@ class Logger:
         self.root_logger.addHandler(console_handler)
 
     def set_log_directory(self, log_dir):
+        print("Logger set_log_directory: {}".format(log_dir))
         self._initialize(log_dir)
 
     def get_logger(self, name=None):
@@ -61,6 +63,7 @@ class Logger:
         return logging.getLogger(name)
 
     def set_level(self, level):
+        print("Logger set_level: {}".format(level))
         self.root_logger.setLevel(level)
 
 # 全局logger实例

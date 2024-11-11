@@ -25,6 +25,7 @@ def main():
     log_path = config.get_config('log', 'path', default='logs')
     
     # 设置全局日志级别
+    print("log_level: {}".format(log_level))
     set_log_level(getattr(logging, log_level.upper()))
     # 设置日志目录
     set_log_directory(log_path)
