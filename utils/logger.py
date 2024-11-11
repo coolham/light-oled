@@ -37,7 +37,6 @@ class Logger:
         log_file = os.path.join(log_dir, log_file)
 
         self.root_logger = logging.getLogger()
-        self.root_logger.setLevel(logging.DEBUG)  # 或者您想要的任何级别
 
         # 移除所有现有的处理器
         for handler in self.root_logger.handlers[:]:
