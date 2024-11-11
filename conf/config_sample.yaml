@@ -4,7 +4,7 @@ server:
 
 log:
   level: info
-
+  dir: logs
 ssd1306:
   i2c_bus: 3
   i2c_address: 0x3c

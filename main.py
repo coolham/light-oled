@@ -22,15 +22,18 @@ def main():
     config = MasterConfig(config_file)
     
     log_level = config.get_config('log', 'level', default='info')
+    log_dir = config.get_config('log', 'dir', default='logs')
     
     # 设置全局日志级别
     set_log_level(getattr(logging, log_level.upper()))
+    # 设置日志目录
+    logger.set_log_directory(log_dir)
 
     display = create_display()
     display.display_text_line('Disp OK.', 8, 8)
     
     # start_flask_app(display)
-    uvicorn.run("web.fastapi_api:app", host="127.0.0.1", port=8003, reload=False)
+    uvicorn.run("web.fastapi_api:app", host="127.0.0.1", port=8003, log_level=log_level, reload=False)
     
 
 if __name__ == "__main__":
