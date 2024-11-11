@@ -19,11 +19,19 @@ class Logger:
             cls._instance._initialize()
         return cls._instance
 
-    def _initialize(self):
+    def _initialize(self, log_dir='logs'):
         now_str = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-        log_dir = 'logs'
+        
+        # 检查并创建日志目录
         if not os.path.exists(log_dir):
-            os.mkdir(log_dir)
+            try:
+                os.makedirs(log_dir)
+            except Exception as e:
+                print(f"Failed to create log directory {log_dir}: {e}")
+                log_dir = 'logs'  # 回退到默认目录
+                if not os.path.exists(log_dir):
+                    os.makedirs(log_dir)
+
         log_file = f'pyssd1306_{now_str}.log'
         log_file = os.path.join(log_dir, log_file)
 
@@ -43,6 +51,9 @@ class Logger:
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(formatter)
         self.root_logger.addHandler(console_handler)
+
+    def set_log_directory(self, log_dir):
+        self._initialize(log_dir)
 
     def get_logger(self, name=None):
         if name is None:
