@@ -22,12 +22,12 @@ def main():
     config = MasterConfig(config_file)
     
     log_level = config.get_config('log', 'level', default='info')
-    log_dir = config.get_config('log', 'dir', default='logs')
+    log_path = config.get_config('log', 'path', default='logs')
     
     # 设置全局日志级别
     set_log_level(getattr(logging, log_level.upper()))
     # 设置日志目录
-    set_log_directory(log_dir)
+    set_log_directory(log_path)
 
     display = create_display()
     display.display_text_line('Disp OK.', 8, 8)
