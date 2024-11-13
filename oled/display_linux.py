@@ -123,3 +123,26 @@ class LinuxDisplay(DisplayBase):
 
         # 可选：清除屏幕
         self.clear()
+
+    def display_marquee_text(self, text, font_size=None, speed=0.1):
+        """
+        以跑马灯形式显示文本。
+        
+        :param text: 要显示的文本
+        :param font_size: 字体大小
+        :param speed: 滚动速度（秒）
+        """
+        font = self._get_font(font_size)
+        text_width, text_height = font.getsize(text)
+        width = self.device.width
+        height = self.device.height
+
+        # 初始位置在屏幕右侧外
+        x = width
+        y = (height - text_height) // 2
+
+        while x + text_width > 0:
+            with canvas(self.device) as draw:
+                draw.text((x, y), text, font=font, fill="white")
+            x -= 1  # 每次向左移动一个像素
+            time.sleep(speed)  # 控制滚动速度

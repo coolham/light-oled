@@ -55,7 +55,20 @@ async def display_text_multiline(lines: List[TextLine]):
         return CommonResponse(code=0, message="OK", data=result_data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
+# curl -X POST  -H 'Content-Type: application/json' -d '{"text":"Hello, SSD1306!", "font_size":16, "speed":0.1}' http://localhost:8003/display/marquee/text
+@app.post("/display/marquee/text")
+async def display_marquee_text(item: TextLine):
+    logger.debug("display_marquee_text: {}".format(item))
+    try:
+        display.display_marquee_text(item.text, font_size=item.font_size, speed=item.speed)
+        result_data = {}
+        return CommonResponse(code=0, message="OK", data=result_data)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# curl -X POST  -H 'Content-Type: application/json' http://localhost:8003/display/clear
 @app.post("/display/clear")
 async def display_clear():
     logger.debug("display_clear")
