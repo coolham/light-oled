@@ -5,12 +5,12 @@ APP_NAME="light-oled"
 pyinstaller --noconfirm --name $APP_NAME main.py
 
 # 创建目标目录
-mkdir -p dist/$APP_NAM/conf
-mkdir -p dist/$APP_NAM/fonts
+mkdir -p dist/$APP_NAME/conf
+mkdir -p dist/$APP_NAME/fonts
 
 # 复制 conf 目录
-cp -r conf/* dist/$APP_NAM/conf/
+cp -r conf/* dist/$APP_NAME/conf/
 
 # 复制 help 目录
-cp -r fonts/* dist/$APP_NAM/fonts/
+cp -r fonts/* dist/$APP_NAME/fonts/
 
