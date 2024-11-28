@@ -39,7 +39,9 @@ class LinuxDisplay(DisplayBase):
     def _initialize_device(self, retries=3, delay=1):
         for attempt in range(retries):
             try:
-                return ssd1306(self.serial)
+                device = ssd1306(self.serial)
+                logger.info("SSD1306 device initialized successfully.")
+                return device
             except Exception as e:
                 logger.error("Failed to initialize SSD1306 device (attempt {}): {}".format(attempt + 1, e))
                 time.sleep(delay)  # 等待一段时间后重试

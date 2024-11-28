@@ -86,6 +86,21 @@ The API endpoints are accessible at `http://localhost:8080/`.
 - POST `/display/scroll`: Scroll text
 - GET `/display/status`: Get the current status of the display
 
+## I2C
+
+let the user be in the dialout group to access the I2C bus
+```shell
+sudo usermod -a -G dialout  $USER
+```
+
+Check the I2C bus
+
+```shell
+sudo i2cdetect -l
+sudo i2cdetect -y 3
+```
+
+
 ## Contributing
 Contributions, issues, and feature requests are welcome! Feel free to check [issues page](link-to-your-issues-page).
 
