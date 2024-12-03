@@ -4,11 +4,12 @@ from typing import Optional, List
 from oled.display import create_display
 from utils.logger import log_function, get_logger
 from web.fast_resp import CommonResponse
+from oled.display_linux import LinuxDisplay
 
 logger = get_logger("api")
 
 app = FastAPI()
-display = create_display()
+display = LinuxDisplay()
 
 class TextLine(BaseModel):
     text: str
@@ -74,6 +75,16 @@ async def display_clear():
     logger.debug("display_clear")
     try:
         display.clear()
+        result_data = {}
+        return CommonResponse(code=0, message="OK", data=result_data)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+# curl http://localhost:8003/display/clear
+@app.api_route("/display/test", methods=["GET", "POST"])
+async def display_test():
+    try:    
+        display.display_test()
         result_data = {}
         return CommonResponse(code=0, message="OK", data=result_data)
     except Exception as e:

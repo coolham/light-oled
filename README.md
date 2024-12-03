@@ -100,6 +100,11 @@ sudo i2cdetect -l
 sudo i2cdetect -y 3
 ```
 
+###  I2C device permission denied: /dev/i2c-3
+
+```
+sudo usermod -a -G dialout  ${USER}
+```
 
 ## Contributing
 Contributions, issues, and feature requests are welcome! Feel free to check [issues page](link-to-your-issues-page).

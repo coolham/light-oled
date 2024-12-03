@@ -20,3 +20,6 @@ class WindowsDisplay(DisplayBase):
         
     def display_marquee_text(self, text, font_size=None, speed=0.1):
         print("Display not supported on Windows.")
+
+    def display_test(self):
+        print("Display not supported on Windows.")

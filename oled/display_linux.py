@@ -148,3 +148,6 @@ class LinuxDisplay(DisplayBase):
                 draw.text((x, y), text, font=font, fill="white")
             x -= 1  # 每次向左移动一个像素
             time.sleep(speed)  # 控制滚动速度
+
+    def display_test(self):
+        self.display_text_line("Test", 0, 0, 24)
