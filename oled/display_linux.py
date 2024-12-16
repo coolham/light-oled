@@ -43,7 +43,7 @@ class LinuxDisplay(DisplayBase):
                 logger.info("SSD1306 device initialized successfully.")
                 return device
             except Exception as e:
-                logger.error("Failed to initialize SSD1306 device (attempt {}): {}".format(attempt + 1, e))
+                logger.error("Failed to initialize SSD1306 device, i2c_port={} (attempt {}): {}".format(self.i2c_port, attempt + 1, e))
                 time.sleep(delay)  # 等待一段时间后重试
         logger.error("All attempts to initialize SSD1306 device failed.")
         return None  # 所有尝试失败后返回None
@@ -84,6 +84,9 @@ class LinuxDisplay(DisplayBase):
         return False
                         
     def display_text_line(self, text, x, y, font_size=None):
+        if not self.device:
+            logger.error("device not initialized!")
+            return False
         font = self._get_font(font_size)
         # 在SSD1306上显示文本的实现
         with canvas(self.device) as draw:
@@ -95,6 +98,9 @@ class LinuxDisplay(DisplayBase):
         显示多行文本，其中每一行都可以指定独立的(x, y)位置。
         lines 参数是一个列表，每个元素是一个字典，包含 'text', 'x', 和 'y' 键。
         """
+        if not self.device:
+            logger.error("device not initialized!")
+            return False        
         with canvas(self.device) as draw:
             for line in lines:
                 text = line['text']
@@ -105,6 +111,9 @@ class LinuxDisplay(DisplayBase):
                 draw.text((x, y), text, font=font, fill="white")
                     
     def clear(self):
+        if not self.device:
+            logger.error("device not initialized!")
+            return False
         logger.info("clear display")
         # 使用黑色矩形覆盖整个屏幕来清除内容
         with canvas(self.device) as draw:
@@ -115,6 +124,9 @@ class LinuxDisplay(DisplayBase):
         """
         重新初始化SSD1306显示屏。
         """
+        if not self.device:
+            logger.error("device not initialized!")
+            return False
         # 关闭当前设备连接（如果需要的话）
         if self.device:
             self.device.cleanup()
@@ -134,6 +146,9 @@ class LinuxDisplay(DisplayBase):
         :param font_size: 字体大小
         :param speed: 滚动速度（秒）
         """
+        if not self.device:
+            logger.error("device not initialized!")
+            return False
         font = self._get_font(font_size)
         text_width, text_height = font.getsize(text)
         width = self.device.width
