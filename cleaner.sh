@@ -12,7 +12,5 @@ clear_directory "__pycache__"
 clear_directory ".pytest_cache"
 clear_directory "build"
 clear_directory "dist"
-clear_directory "light-oled/build"
-clear_directory "light-oled/dist"
 
 echo "Cleanup complete!"
